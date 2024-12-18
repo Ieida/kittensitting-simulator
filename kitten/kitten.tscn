@@ -1,0 +1,178 @@
+[gd_scene load_steps=13 format=3 uid="uid://ckfiooshwyqpg"]
+
+[ext_resource type="PackedScene" uid="uid://gwbc45jefcrn" path="res://state_machine/state_machine.tscn" id="1_2cfjh"]
+[ext_resource type="Script" path="res://kitten/kitten.gd" id="1_3or6o"]
+[ext_resource type="Texture2D" uid="uid://cp308sweapwqy" path="res://kitten/kitten_fur.png" id="2_15uij"]
+[ext_resource type="PackedScene" uid="uid://djlx7fida4qxf" path="res://state_machine/state.tscn" id="2_lhyq7"]
+[ext_resource type="Texture2D" uid="uid://bn1sg7o8o303k" path="res://kitten/kitten_lines.png" id="3_imrdg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_36v8m"]
+radius = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d7mhk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_15uij")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmfos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_imrdg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_aflp1"]
+resource_name = "idle"
+script/source = "extends State
+
+
+func enter():
+	print(\"idle entered\")
+
+
+func exit():
+	print(\"idle exited\")
+
+
+func process_conditions() -> bool:
+	return true
+"
+
+[sub_resource type="GDScript" id="GDScript_mehkc"]
+resource_name = "walk"
+script/source = "extends State
+
+
+@onready var kitten: Kitten = $\"../..\"
+@onready var platform_finder = $\"../../PlatformFinder\"
+var platform: Platform
+var is_moving: bool = true
+
+
+func enter():
+	platform = platform_finder.nearest_higher()
+	print(\"walk entered\")
+
+
+func exit():
+	is_moving = true
+	print(\"walk exited\")
+
+
+func physics_process(_delta: float):
+	var d = platform.global_position.x - kitten.global_position.x
+	if is_moving and absf(d) < 8.0:
+		d = 0.0
+		is_moving = false
+		kitten.velocity = Vector2(0, -400)
+	if is_moving:
+		kitten.move(clampf(d, -1, 1))
+
+
+func process_conditions() -> bool:
+	var e = kitten.energy > 80.0
+	var p = platform_finder.has_platform()
+	return e and p
+"
+
+[sub_resource type="GDScript" id="GDScript_oc8jx"]
+resource_name = "platform_finder"
+script/source = "extends Area2D
+
+
+var platforms: Array[Platform]
+
+
+func _physics_process(_delta: float) -> void:
+	for b in get_overlapping_bodies():
+		if b is Platform:
+			platforms.append(b)
+	platforms.sort_custom(_sort_nearest)
+
+
+func _sort_nearest(a: Platform, b: Platform) -> bool:
+	var da = global_position.distance_to(a.global_position)
+	var db = global_position.distance_to(b.global_position)
+	return db < da
+
+
+func has_platform() -> bool:
+	return platforms.size() > 0
+
+
+func nearest() -> Platform:
+	return platforms[0] if platforms.size() > 0 else null
+
+
+func nearest_higher() -> Platform:
+	if platforms.size() == 0: return null
+	elif platforms.size() == 1: return platforms[0]
+	var n: Platform = platforms[0]
+	var nh: float = n.global_position.y - (n.size.y * 0.5)
+	for p in platforms:
+		if p == n: continue
+		var ph: float = p.global_position.y - (p.size.y * 0.5)
+		if ph < nh:
+			n = p
+			nh = ph
+	return n
+
+
+func nearest_lower() -> Platform:
+	if platforms.size() == 0: return null
+	elif platforms.size() == 1: return platforms[0]
+	var n: Platform = platforms[0]
+	var nh: float = n.global_position.y + (n.size.y * 0.5)
+	for p in platforms:
+		if p == n: continue
+		var ph: float = p.global_position.y + (p.size.y * 0.5)
+		if ph > nh:
+			n = p
+			nh = ph
+	return n
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yy2mi"]
+radius = 64.0
+
+[node name="Kitten" type="CharacterBody2D"]
+script = ExtResource("1_3or6o")
+speed = 32.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CircleShape2D_36v8m")
+
+[node name="Fur" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+sprite_frames = SubResource("SpriteFrames_d7mhk")
+
+[node name="Lines" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+sprite_frames = SubResource("SpriteFrames_tmfos")
+
+[node name="StateMachine" parent="." instance=ExtResource("1_2cfjh")]
+
+[node name="Idle" parent="StateMachine" instance=ExtResource("2_lhyq7")]
+script = SubResource("GDScript_aflp1")
+
+[node name="Walk" parent="StateMachine" instance=ExtResource("2_lhyq7")]
+script = SubResource("GDScript_mehkc")
+
+[node name="PlatformFinder" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+script = SubResource("GDScript_oc8jx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformFinder"]
+shape = SubResource("CircleShape2D_yy2mi")

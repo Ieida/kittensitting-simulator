@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://3px56pn3rwbl"]
+
+[ext_resource type="PackedScene" uid="uid://bm4t2madxcfms" path="res://platform/platform.tscn" id="1_4w6ws"]
+[ext_resource type="PackedScene" uid="uid://ckfiooshwyqpg" path="res://kitten/kitten.tscn" id="1_41u2u"]
+
+[node name="World" type="Node2D"]
+
+[node name="Platform" parent="." instance=ExtResource("1_4w6ws")]
+size = Vector2(256, 16)
+
+[node name="HighPlatform" parent="." instance=ExtResource("1_4w6ws")]
+position = Vector2(79, -63)
+size = Vector2(256, 16)
+
+[node name="Kitten" parent="." instance=ExtResource("1_41u2u")]
+position = Vector2(0, -36)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -33)
+zoom = Vector2(4, 4)
