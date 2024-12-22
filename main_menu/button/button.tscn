@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0hixe86ns2yl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkvvy"]
+content_margin_left = 32.0
+content_margin_top = 8.0
+content_margin_right = 32.0
+content_margin_bottom = 8.0
+bg_color = Color(0.4026, 0.4884, 0.66, 0.247059)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.576471, 0.737255, 0.87451, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsg04"]
+content_margin_left = 32.0
+content_margin_top = 8.0
+content_margin_right = 32.0
+content_margin_bottom = 8.0
+bg_color = Color(0.4026, 0.4884, 0.66, 0.498039)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gba3q"]
+content_margin_left = 32.0
+content_margin_top = 8.0
+content_margin_right = 32.0
+content_margin_bottom = 8.0
+bg_color = Color(0.4, 0.486275, 0.658824, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okpyy"]
+content_margin_left = 32.0
+content_margin_top = 8.0
+content_margin_right = 32.0
+content_margin_bottom = 8.0
+bg_color = Color(0.646029, 0.646029, 0.646029, 0)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[node name="Button" type="Button"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -44.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+theme_override_colors/font_hover_pressed_color = Color(0.901961, 0.87451, 0.686275, 1)
+theme_override_colors/font_hover_color = Color(0.901961, 0.87451, 0.686275, 1)
+theme_override_colors/font_pressed_color = Color(0.901961, 0.87451, 0.686275, 1)
+theme_override_colors/font_focus_color = Color(0.901961, 0.87451, 0.686275, 1)
+theme_override_colors/font_color = Color(0.901961, 0.784314, 0.462745, 1)
+theme_override_colors/font_outline_color = Color(0.392157, 0.243137, 0.141176, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 64
+theme_override_styles/focus = SubResource("StyleBoxFlat_pkvvy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wsg04")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gba3q")
+theme_override_styles/normal = SubResource("StyleBoxFlat_okpyy")
+text = "Button"
+alignment = 0

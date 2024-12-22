@@ -1,0 +1,112 @@
+[gd_scene load_steps=8 format=3 uid="uid://5sr84wwslm70"]
+
+[ext_resource type="Texture2D" uid="uid://44q5obuxwx1p" path="res://main_menu/menu_background.jpg" id="1_yjlfm"]
+[ext_resource type="Texture2D" uid="uid://cx3uwf3ehtcms" path="res://main_menu/menu_kitten.png" id="2_ue5oj"]
+[ext_resource type="Texture2D" uid="uid://h7spx67llp4y" path="res://main_menu/title_kitten.png" id="3_fs0xu"]
+[ext_resource type="Texture2D" uid="uid://b3rftsmj82mav" path="res://main_menu/title_sitting.png" id="4_xx8wh"]
+[ext_resource type="Texture2D" uid="uid://c88p874k8wgkd" path="res://main_menu/title_simulator.png" id="5_wnem6"]
+[ext_resource type="PackedScene" uid="uid://b0hixe86ns2yl" path="res://main_menu/button/button.tscn" id="6_aclqx"]
+
+[sub_resource type="GDScript" id="GDScript_6byjq"]
+resource_name = "move_around"
+script/source = "extends Node2D
+
+
+@export var amplitude: float = 16.0
+@export var frequency: float = 2.0
+var starting_position: Vector2
+var time: float
+
+
+func _ready() -> void:
+	starting_position = position
+
+
+func _process(delta: float) -> void:
+	time += delta
+	var d = Vector2(1, -1).normalized()
+	var dt = sin(time * frequency) * amplitude
+	var tp = starting_position + d * dt
+	position = tp
+"
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Background"]
+texture = ExtResource("1_yjlfm")
+centered = false
+
+[node name="KittenText" type="Sprite2D" parent="Background"]
+position = Vector2(1113, 517)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_fs0xu")
+script = SubResource("GDScript_6byjq")
+amplitude = 32.0
+frequency = 1.0
+
+[node name="Sitting" type="Sprite2D" parent="Background"]
+position = Vector2(1708, 544)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_xx8wh")
+script = SubResource("GDScript_6byjq")
+amplitude = 24.0
+frequency = 0.5
+
+[node name="Simulator" type="Sprite2D" parent="Background"]
+position = Vector2(1567, 831)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_wnem6")
+script = SubResource("GDScript_6byjq")
+amplitude = 8.0
+frequency = 0.5
+
+[node name="Kitten" type="Sprite2D" parent="Background"]
+position = Vector2(629, 1088)
+texture = ExtResource("2_ue5oj")
+
+[node name="Camera2D" type="Camera2D" parent="Background"]
+position = Vector2(1309, 783)
+script = SubResource("GDScript_6byjq")
+amplitude = 32.0
+frequency = 0.5
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+alignment = 2
+
+[node name="Play" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource("6_aclqx")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play"
+
+[node name="Options" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource("6_aclqx")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Options"
+
+[node name="ExitToDesktop" parent="UI/MarginContainer/VBoxContainer" instance=ExtResource("6_aclqx")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Exit to Desktop"
