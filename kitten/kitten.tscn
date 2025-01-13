@@ -1,34 +1,163 @@
-[gd_scene load_steps=13 format=3 uid="uid://ckfiooshwyqpg"]
+[gd_scene load_steps=31 format=3 uid="uid://ckfiooshwyqpg"]
 
 [ext_resource type="PackedScene" uid="uid://gwbc45jefcrn" path="res://state_machine/state_machine.tscn" id="1_2cfjh"]
 [ext_resource type="Script" path="res://kitten/kitten.gd" id="1_3or6o"]
-[ext_resource type="Texture2D" uid="uid://cp308sweapwqy" path="res://kitten/kitten_fur.png" id="2_15uij"]
 [ext_resource type="PackedScene" uid="uid://djlx7fida4qxf" path="res://state_machine/state.tscn" id="2_lhyq7"]
-[ext_resource type="Texture2D" uid="uid://bn1sg7o8o303k" path="res://kitten/kitten_lines.png" id="3_imrdg"]
+[ext_resource type="Texture2D" uid="uid://c3ox00l67idy1" path="res://kitten/spritesheet_fur.png" id="2_w4r7j"]
+[ext_resource type="Texture2D" uid="uid://x738myiedsri" path="res://kitten/spritesheet_lines.png" id="3_xqe2f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_36v8m"]
 radius = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2umtd"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7xb3"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(3584, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gos6k"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(3072, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5xsw"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(2560, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gotg7"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(2048, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08pv1"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_viota"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hj8j4"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm16j"]
+atlas = ExtResource("2_w4r7j")
+region = Rect2(0, 0, 512, 512)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d7mhk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_15uij")
+"texture": SubResource("AtlasTexture_2umtd")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7xb3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gos6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5xsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gotg7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08pv1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_viota")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hj8j4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm16j")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
 }]
+
+[sub_resource type="GDScript" id="GDScript_sd53e"]
+resource_name = "fur"
+script/source = "@tool
+extends AnimatedSprite2D
+
+
+func _process(delta: float) -> void:
+	$\"../Lines\".animation = animation
+	$\"../Lines\".frame = frame
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5pc1"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(3584, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rs03"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(3072, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_334tu"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(2560, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v304m"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(2048, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0ngr"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(1536, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ks3u3"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(1024, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02f2s"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yndw"]
+atlas = ExtResource("3_xqe2f")
+region = Rect2(0, 0, 512, 512)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tmfos"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_imrdg")
+"texture": SubResource("AtlasTexture_h5pc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rs03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_334tu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v304m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0ngr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ks3u3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02f2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yndw")
 }],
 "loop": true,
-"name": &"default",
-"speed": 5.0
+"name": &"walk",
+"speed": 10.0
 }]
 
 [sub_resource type="GDScript" id="GDScript_aflp1"]
@@ -156,10 +285,15 @@ shape = SubResource("CircleShape2D_36v8m")
 [node name="Fur" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.08, 0.08)
 sprite_frames = SubResource("SpriteFrames_d7mhk")
+animation = &"walk"
+frame = 4
+frame_progress = 0.267289
+script = SubResource("GDScript_sd53e")
 
 [node name="Lines" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.08, 0.08)
 sprite_frames = SubResource("SpriteFrames_tmfos")
+animation = &"walk"
 
 [node name="StateMachine" parent="." instance=ExtResource("1_2cfjh")]
 
